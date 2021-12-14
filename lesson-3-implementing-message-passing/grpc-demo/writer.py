@@ -13,7 +13,6 @@ print("Sending sample payload...")
 
 channel = grpc.insecure_channel("localhost:5005")
 
-time.sleep(2)
 stub = item_pb2_grpc.ItemServiceStub(channel)
 
 # desired payload
@@ -24,9 +23,10 @@ item = item_pb2.ItemMessage(
     weight=4.5
 )
 
+time.sleep(1)
 response = stub.Create(item)
+print(response)
 
-time.sleep(2)
 stub2 = order_pb2_grpc.OrderServiceStub(channel)
 
 # desired payload
@@ -38,5 +38,10 @@ order = order_pb2.OrderMessage(
     equipment=[0,1,2,3]
 )
 
-
+time.sleep(1)
 response2 = stub2.Create(order)
+print(response2)
+
+time.sleep(1)
+response3 = stub2.Get(order_pb2.Empty())
+print(response3)

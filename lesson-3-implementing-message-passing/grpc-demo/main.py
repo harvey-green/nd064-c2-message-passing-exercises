@@ -37,6 +37,30 @@ class OrderServicer(order_pb2_grpc.OrderServiceServicer):
 
         return order_pb2.OrderMessage(**request_value)
 
+    def Get(self, request, context):
+
+        print("got a Get orders request!")
+        order1 = order_pb2.OrderMessage(
+            id="100",
+            created_by="Alice",
+            status=0,
+            created_at="2021-12-14 21:35",
+            equipment=[0,1],
+        )
+        order2 = order_pb2.OrderMessage(
+            id="101",
+            created_by="Bob",
+            status=0,
+            created_at="2021-12-14 21:40",
+            equipment=[2,3],
+        )
+        returnValue = {
+            "orders": [order1, order2],
+        }
+        return order_pb2.OrderMessageList(**returnValue)
+
+
+
 
 # Initialize gRPC server
 server = grpc.server(futures.ThreadPoolExecutor(max_workers=2))
